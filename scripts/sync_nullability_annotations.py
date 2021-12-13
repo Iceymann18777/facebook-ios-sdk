@@ -130,14 +130,13 @@ def get_files_with_extension(extension: str) -> List[str]:
     files_str = get_output(f"git ls-files '{extension}'")
     if not files_str:
         files_str = get_output(f"hg files -I '**/{extension}'")
-        if not files_str:
-            print(f"No files found with extension: {extension}", file=sys.stderr)
-            sys.exit(1)
+    if not files_str:
+        print(f"No files found with extension: {extension}", file=sys.stderr)
+        sys.exit(1)
 
     files = files_str.splitlines()
 
-    filtered_files = [f for f in files if not f.startswith(("samples", "testing"))]
-    return filtered_files
+    return [f for f in files if not f.startswith(("samples", "testing"))]
 
 
 def write_lines_to_file(lines: List[str], file: str) -> None:
